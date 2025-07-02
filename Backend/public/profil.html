@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Pengguna</title>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/templatemo-574-mexant.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="index.html" class="logo">FunVac</a>
+                        <ul class="nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li class="scroll-to-section"><a href="#profil">Profil Saya</a></li>
+                            <li><a href="#" id="logoutButtonProfilePage">Logout</a></li>
+                        </ul>
+                        <a class='menu-trigger'><span>Menu</span></a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-5 py-5">
+        <h1 class="mb-4">Profil Pengguna</h1>
+        <div class="card">
+            <div class="card-body">
+                <p><strong>Username:</strong> <span id="profileUsername"></span></p>
+                <p><strong>Nama Lengkap:</strong> <span id="profileFullName"></span></p>
+                <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                <button class="btn btn-danger mt-3" id="logoutButtonProfilePageBottom">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        </footer>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/custom.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            const username = localStorage.getItem('username');
+
+            if (!token || !userId || !username) {
+                // Redirect jika belum login
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Akses Ditolak',
+                    text: 'Anda harus login untuk melihat profil.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = 'login.html';
+                });
+                return;
+            }
+
+            // Tampilkan username dari localStorage sementara
+            document.getElementById('profileUsername').textContent = username;
+
+            // --- Fungsi untuk Mengambil Data Profil dari Backend (Perlu API Endpoint) ---
+            async function fetchUserProfile() {
+                try {
+                    const response = await fetch(`http://localhost:3000/api/users/${userId}`, { // Contoh API endpoint
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        document.getElementById('profileFullName').textContent = data.fullName || 'Tidak tersedia';
+                        document.getElementById('profileEmail').textContent = data.email || 'Tidak tersedia';
+                        // Update UI dengan data profil lainnya
+                    } else {
+                        Swal.fire('Error', data.message || 'Gagal mengambil data profil.', 'error');
+                        // Handle error (e.g., token invalid, redirect to login)
+                        if (response.status === 401) { // Unauthorized
+                            localStorage.clear();
+                            window.location.href = 'login.html';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching profile:', error);
+                    Swal.fire('Error', 'Gagal terhubung ke server untuk mengambil profil.', 'error');
+                }
+            }
+            fetchUserProfile(); // Panggil fungsi untuk mengambil data profil
+
+            // --- Fungsi Logout di Halaman Profil ---
+            function performLogout() {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('username');
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Anda telah Logout',
+                    showConfirmButton: false,
+                    timer: 1000
+                }).then(() => {
+                    window.location.href = 'index.html'; // Redirect ke halaman utama
+                });
+            }
+
+            // Event listener untuk tombol logout di navigasi header (jika ada)
+            const logoutButtonHeader = document.getElementById('logoutButtonProfilePage');
+            if (logoutButtonHeader) {
+                logoutButtonHeader.addEventListener('click', performLogout);
+            }
+
+            // Event listener untuk tombol logout di bagian bawah profil
+            const logoutButtonProfilePageBottom = document.getElementById('logoutButtonProfilePageBottom');
+            if (logoutButtonProfilePageBottom) {
+                logoutButtonProfilePageBottom.addEventListener('click', performLogout);
+            }
+        });
+    </script>
+</body>
+</html>

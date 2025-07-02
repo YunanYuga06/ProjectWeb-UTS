@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link rel="stylesheet" href="/login.css">
+    <link rel="icon" href="/assets/images/Title-logo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+<body>
+    <div class="wrap">
+        <form id="registerForm" action="" method="post">
+            <h1>Daftar</h1>
+            <div class="input-box">
+                <input name="nama" id="nama" type="text" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input name="email" id="email" type="text" placeholder="Email" required>
+                <i class='bx bxs-envelope'></i> </div>
+            <div class="input-box">
+                <input name="sandi" type="password" id="sandi" placeholder="Password" required>
+                <i class='bx bxs-lock'></i>
+            </div>
+            <input type="checkbox" class="check" onclick="myFunction()">Tampilkan Password<br><br>
+            <button type="submit" class="button">Daftar</button>
+        </form>
+    </div>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("sandi");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const nama = document.getElementById('nama').value;
+            const email = document.getElementById('email').value;
+            const sandi = document.getElementById('sandi').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nama, email, sandi }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = 'login.html';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: data.message || 'Terjadi kesalahan saat mendaftar.',
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error Koneksi!',
+                    text: 'Tidak dapat terhubung ke server. Pastikan backend berjalan.',
+                });
+            }
+        });
+    </script>
+</body>
+</html>
