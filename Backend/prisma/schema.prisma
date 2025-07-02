@@ -23,6 +23,7 @@ model User {
   encryptedFullName String?
   encryptedEmail    String?
   bookings          Booking[]
+  testimonials      Testimonial[]
 }
 
 model Booking {
@@ -36,31 +37,44 @@ model Booking {
   service               Service?  @relation(fields: [serviceId], references: [id])
 }
 
+// ProjectWeb-UTS-main/Backend/prisma/schema.prisma
+
 model Destination {
-  id              Int             @id @default(autoincrement())
-  name            String          @unique
-  shortDescription String
-  longDescription String
-  imageUrl        String
-  cardImageUrl    String
-  location        String
-  temperatureRange String?
-  altitude        String?
-  categories      String        // Prisma support for string arrays with SQLite if provider is set correctly, or use JSON
-  features        String?
-  galleryImages   GalleryImage[]
-  services        Service[]
-  testimonials    Testimonial[] // Jika testimoni khusus untuk destinasi
+  id                Int            @id @default(autoincrement())
+  name              String         @unique
+  shortDescription  String
+  longDescription   String
+  imageUrl          String
+  cardImageUrl      String
+  location          String         // Contoh: "Karangsalam, Baturaden, Banyumas"
+  openingHours      String?        // Contoh: "Buka setiap hari 08.00-17.00"
+  contactPhone      String?        // Contoh: "0811-287-686"
+  contactEmail      String?        // Tambahan: Penting untuk sistem booking
+  mapEmbedUrl       String?        // URL untuk iframe peta, lebih spesifik dari detailsMapUrl sebelumnya
+  basePrice         Float?         // Harga dasar tiket/masuk, gunakan Float untuk koma
+  currency          String?        // Contoh: "IDR"
+  priceNotes        String?        // Catatan tambahan terkait harga (misal: "Tarif per orang: Rp 25.000–50.000")
+  temperatureRange  String?
+  altitude          String?
+  categories        String         // Contoh: "Adventure", "Culinary", "Refreshing"
+  features          String?        // Fitur spesifik (misal: "Area Parkir Luas", "Akses Kursi Roda")
+
+  galleryImages     GalleryImage[]
+  services          Service[]
+  testimonials      Testimonial[]
+
 }
 
+
 model Testimonial {
-  id              Int       @id @default(autoincrement())
-  quoteText       String
-  authorName      String
-  authorRole      String
-  destinationId   Int?
-  destination     Destination? @relation(fields: [destinationId], references: [id])
+  id            Int         @id @default(autoincrement())
+  quoteText     String
+  destinationId Int?
+  destination   Destination? @relation(fields: [destinationId], references: [id])
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
 }
+
 
 model GalleryImage {
   id              Int       @id @default(autoincrement())

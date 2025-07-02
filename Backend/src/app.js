@@ -1,39 +1,62 @@
-// backend/src/app.js
+// ProjectWeb-UTS-main/Backend/src/app.js
+
 const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
 const path = require('path');
-
-dotenv.config(); // Load environment variables from .env file
-
 const app = express();
-const PORT = process.env.PORT || 3000; // Port untuk backend API
 
 // Middleware
-app.use(cors()); // Mengizinkan permintaan lintas asal dari frontend
-app.use(express.json()); // Mengizinkan Express untuk membaca JSON dari body request
-app.use(express.urlencoded({ extended: true })); // Untuk parsing URL-encoded bodies
+app.use(express.json()); // Untuk parsing body JSON dari request
+app.use(express.urlencoded({ extended: true })); // Untuk parsing URL-encoded body dari request
 
-// Serving static frontend files (misalnya, HTML, CSS, JS)
-// Pastikan folder 'public' berisi semua file frontend Anda
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// Serve static files from the 'public' directory
+// Penting agar file HTML, CSS, JS, dan gambar di folder public bisa diakses oleh browser
+app.use(express.static(path.join(__dirname, '../public')));
 
-// Import Routes
+// Import routes
 const authRoutes = require('./routes/authRoutes');
-// const bookingRoutes = require('./routes/bookingRoutes'); // Akan dibuat nanti
+const destinationRoutes = require('./routes/destinationRoutes'); // Impor routes destinasi
 
-// Gunakan Routes
-app.use('/api/auth', authRoutes); // Semua rute di authRoutes akan diawali dengan /api/auth
-// app.use('/api/bookings', bookingRoutes);
+// Use routes
+app.use('/api/auth', authRoutes);
+app.use('/api/destinations', destinationRoutes); // Gunakan routes destinasi
 
-// Rute untuk fallback ke index.html jika ada rute yang tidak ditemukan di backend API
-// Ini penting jika Anda ingin single page application atau untuk menangani refresh halaman
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-// });
+// Catch-all routes to serve HTML files directly from public directory
+// Ini memastikan halaman HTML Anda dapat diakses langsung melalui URL
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
+app.get('/our-services.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'our-services.html'));
+});
+
+app.get('/galery.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'galery.html'));
+});
+
+app.get('/about-us.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'about-us.html'));
+});
+
+app.get('/contact-us.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'contact-us.html'));
+});
+
+app.get('/login.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'login.html'));
+});
+
+app.get('/register.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'register.html'));
+});
+
+app.get('/profil.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'profil.html'));
+});
+
 
 // Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Backend API running on http://localhost:${PORT}`);
-    console.log(`Frontend served from http://localhost:${PORT}`);
+    console.log(`Server berjalan di port ${PORT}`);
 });

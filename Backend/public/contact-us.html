@@ -34,21 +34,17 @@ https://templatemo.com/tm-574-mexant
 <body>
 
 
-  <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky">
+<header class="header-area header-sticky">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
-                        FunVac
+                      FunVac
                     </a>
-                    <!-- ***** Logo End ***** -->
-                    <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li class="scroll-to-section"><a href="index.html">Home</a></li>
-                        <li class="scroll-to-section"><a href="index.html">About</a></li>
+                        <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="#About">About</a></li>
                         <li class="has-sub">
                             <a href="javascript:void(0)">Visit</a>
                             <ul class="sub-menu">
@@ -57,18 +53,17 @@ https://templatemo.com/tm-574-mexant
                             </ul>
                         </li>
                         <li class="scroll-to-section"><a href="about-us.html">About Us</a></li>
-                        <li><a href="contact-us.html">Contact Support</a></li> 
+                        <li id="loginNavItem"><a href="login.html">Login</a></li>
+                        <li id="loggedInUserNavItem" style="display: none;"><a href="profil.html">Hi, <span id="usernameDisplay"></span></a></li>
                     </ul>        
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>
-                    <!-- ***** Menu End ***** -->
-                </nav>
+                    </nav>
             </div>
         </div>
     </div>
 </header>
-<!-- ***** Header Area End ***** -->
 
 <div class="page-heading">
   <div class="container">
@@ -238,6 +233,41 @@ https://templatemo.com/tm-574-mexant
       };
 
       var swiper = new Swiper(".swiper-container", swiperOptions);
+      // Tambahkan kode ini di bagian bawah file custom.js
+$(document).ready(function() {
+    function checkLoginStatus() {
+        const token = localStorage.getItem('token'); // Ambil token dari localStorage
+        const username = localStorage.getItem('username'); // Ambil username dari localStorage
+
+        const loginNavItem = $('#loginNavItem');
+        const loggedInUserNavItem = $('#loggedInUserNavItem');
+        const usernameDisplay = $('#usernameDisplay');
+
+        if (token && username) {
+            // Jika token dan username ada, berarti user sudah login
+            loginNavItem.hide(); // Sembunyikan tombol login
+            usernameDisplay.text(username); // Set username di span
+            loggedInUserNavItem.show(); // Tampilkan elemen Hi, (username)
+        } else {
+            // Jika tidak ada token atau username, user belum login
+            loginNavItem.show(); // Tampilkan tombol login
+            loggedInUserNavItem.hide(); // Sembunyikan elemen Hi, (username)
+        }
+    }
+
+    // Panggil fungsi saat dokumen siap
+    checkLoginStatus();
+
+    // Opsional: Jika Anda ingin menambahkan tombol logout di halaman profil.html
+    // Pastikan di profil.html ada tombol dengan id="logoutButton"
+    $('#logoutButton').on('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        // Redirect ke halaman home atau login setelah logout
+        window.location.href = 'index.html';
+    });
+});
     </script>
 
   </body>

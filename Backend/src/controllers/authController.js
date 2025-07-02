@@ -1,27 +1,26 @@
 // backend/src/controllers/authController.js
 const prisma = require('../prisma');
 const { hashPassword, verifyPassword, encryptData, decryptData } = require('../utils/cryptoUtils');
-const jwt = require('jsonwebtoken'); // Import jsonwebtoken
+const jwt = require('jsonwebtoken');
 
-// Pastikan JWT_SECRET diambil dari .env
+
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
     console.error('ERROR: JWT_SECRET tidak ditemukan di .env. Mohon set kunci rahasia yang kuat!');
-    // Untuk pengembangan, gunakan kunci dummy (JANGAN GUNAKAN DI PRODUKSI)
     process.env.JWT_SECRET = 'supersecretjwtkeyforlocaldev';
 }
 
 
 async function register(req, res) {
-    const { nama, email, sandi } = req.body;
+    const { username, nama, email, sandi } = req.body;
 
-    if (!nama || !email || !sandi) {
+    if (!username ||!nama || !email || !sandi) {
         return res.status(400).json({ message: 'Semua kolom harus diisi.' });
     }
 
     try {
         const existingUser = await prisma.user.findUnique({
-            where: { username: nama },
+            where: { username: username },
         });
 
         if (existingUser) {
@@ -34,7 +33,7 @@ async function register(req, res) {
 
         const newUser = await prisma.user.create({
             data: {
-                username: nama,
+                username: username,
                 hashedPassword: hashedPassword,
                 // salt: 'some_placeholder_salt', // Jika Anda tetap ingin kolom salt di DB dan sudah diubah jadi opsional
                 encryptedFullName: encryptedFullName,

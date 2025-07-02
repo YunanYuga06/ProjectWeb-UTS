@@ -13,7 +13,11 @@
         <form id="registerForm" action="" method="post">
             <h1>Daftar</h1>
             <div class="input-box">
-                <input name="nama" id="nama" type="text" placeholder="Username" required>
+                <input name="username" id="username" type="text" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input name="nama" id="nama" type="text" placeholder="Nama Lengkap" required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
@@ -39,6 +43,7 @@
         }
         document.getElementById('registerForm').addEventListener('submit', async function(event) {
             event.preventDefault();
+            const username = document.getElementById('username').value;
             const nama = document.getElementById('nama').value;
             const email = document.getElementById('email').value;
             const sandi = document.getElementById('sandi').value;
@@ -49,7 +54,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ nama, email, sandi }),
+                    body: JSON.stringify({ username, nama, email, sandi }),
                 });
 
                 const data = await response.json();
