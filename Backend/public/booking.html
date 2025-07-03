@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FunVac - Konfirmasi Booking</title>
+  <link rel="icon" href="/assets/images/Title-logo.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/fontawesome.css">
+  <link rel="stylesheet" href="/assets/css/templatemo-574-mexant.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+    .card-booking {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      padding: 40px;
+    }
+    h1 {
+      color: #007bff;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .form-label {
+      font-weight: 600;
+      color: #555;
+    }
+    .form-control, .form-select {
+      border-radius: 8px;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      font-weight: 600;
+      padding: 12px 25px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      background-color: #6c757d;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      margin-bottom: 20px;
+    }
+    .back-button:hover {
+      background-color: #5a6268;
+      color: white;
+    }
+    .back-button i {
+      margin-right: 8px;
+    }
+    .destination-info {
+        background-color: #e9f5ff;
+        border: 1px solid #cce5ff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+        color: #0056b3;
+    }
+    .destination-info h4 {
+        margin-bottom: 10px;
+        color: #004085;
+        font-weight: 700;
+    }
+    .payment-details-info {
+        background-color: #f8f9fa;
+        border: 1px solid #e2e6ea;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .payment-details-info h5 {
+        color: #333;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    .alert-info {
+        font-size: 0.95rem;
+    }
+    .text-center.loading-message {
+        padding: 50px;
+        font-size: 1.1rem;
+        color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+    <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a href="index.html" class="logo">
+                      FunVac
+                    </a>
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="#About">About</a></li>
+                        <li class="has-sub">
+                            <a href="javascript:void(0)">Visit</a>
+                            <ul class="sub-menu">
+                                <li><a href="our-services.html">Destination</a></li>
+                                <li><a href="galery.html">Gallery</a></li>
+                            </ul>
+                        </li>
+                        <li class="scroll-to-section"><a href="about-us.html">About Us</a></li>
+                        <li id="loginNavItem"><a href="login.html">Login</a></li>
+                        <li id="loggedInUserNavItem" style="display: none;"><a href="profil.html">Hi, <span id="usernameDisplay"></span></a></li>
+                    </ul>        
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    </nav>
+            </div>
+        </div>
+    </div>
+</header>
+  <div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="header-text">
+            <h2>Destination</h2>
+            <div class="div-dec"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <div class="card-booking">
+      <h1>Konfirmasi Booking Destinasi</h1>
+
+      <div id="loadingMessage" class="text-center loading-message">
+          <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Memuat...</span>
+          </div>
+          <p class="mt-3">Memuat detail destinasi...</p>
+      </div>
+
+      <form id="bookingForm" style="display: none;">
+        <div class="destination-info">
+          <h4>Detail Destinasi</h4>
+          <p><strong>Destinasi:</strong> <span id="destinationName"></span></p>
+          <p><strong>Harga:</strong> <span id="destinationPrice"></span></p>
+          <input type="hidden" id="destinationIdInput">
+        </div>
+
+        <input type="hidden" id="userIdInput">
+
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="fullName" class="form-label">Nama Lengkap</label>
+          <input type="text" class="form-control" id="fullName" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" readonly>
+        </div>
+
+        <div class="mb-3">
+          <label for="bookingDate" class="form-label">Tanggal Booking</label>
+          <input type="date" class="form-control" id="bookingDate" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="paymentMethod" class="form-label">Metode Pembayaran</label>
+          <select class="form-select" id="paymentMethod" required>
+            <option value="">Pilih Metode Pembayaran</option>
+            <option value="bca">Transfer Bank BCA</option>
+            <option value="ovo">OVO</option>
+            <option value="gopay">Gopay</option>
+          </select>
+        </div>
+
+        <div id="paymentDetailsDisplay" class="payment-details-info" style="display: none;">
+          <h5>Detail Pembayaran</h5>
+          <p id="paymentAccountName"></p>
+          <p id="paymentAccountNumber"></p>
+          <p id="paymentInstructions"></p>
+        </div>
+
+        <div class="mb-3">
+            <label for="customerTransactionNumber" class="form-label">Nomor Transaksi Pelanggan (Dummy)</label>
+            <input type="text" class="form-control" id="customerTransactionNumber" placeholder="Contoh: 1234567890ABC" required>
+            <div class="form-text">Masukkan nomor transaksi dummy yang Anda dapatkan dari transfer/ewallet.</div>
+        </div>
+
+        <div class="mb-4">
+          <label for="paymentProof" class="form-label">Upload Bukti Pembayaran</label>
+          <input type="file" class="form-control" id="paymentProof" name="paymentProof" accept="image/*,application/pdf"> <div class="form-text">Mohon upload bukti transfer/pembayaran Anda.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mb-3">Konfirmasi Booking</button>
+        <button type="button" class="btn btn-secondary w-100" onclick="history.back()">Kembali</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.min.js"></script> <script src="/assets/js/isotope.min.js"></script> <script src="/assets/js/custom.js"></script>
+  <script>
+    const queryParams = new URLSearchParams(window.location.search);
+    const destinationId = queryParams.get('destinationId');
+    const bookingForm = document.getElementById('bookingForm');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const destinationNameSpan = document.getElementById('destinationName');
+    const destinationPriceSpan = document.getElementById('destinationPrice');
+    const destinationIdInput = document.getElementById('destinationIdInput');
+
+    // User data elements
+    const userIdInput = document.getElementById('userIdInput');
+    const usernameInput = document.getElementById('username');
+    const fullNameInput = document.getElementById('fullName');
+    const emailInput = document.getElementById('email');
+
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const paymentDetailsDisplay = document.getElementById('paymentDetailsDisplay');
+    const paymentAccountName = document.getElementById('paymentAccountName');
+    const paymentAccountNumber = document.getElementById('paymentAccountNumber');
+    const paymentInstructions = document.getElementById('paymentInstructions');
+    const paymentProofInput = document.getElementById('paymentProof'); // Dapatkan referensi input file
+
+    // Dummy data untuk detail rekening bisnis
+    const dummyPaymentDetails = {
+      bca: {
+        method: "Bank Transfer BCA",
+        accountName: "PT FunVac Wisata",
+        accountNumber: "Nomor Rekening: 1234567890",
+        instructions: "Mohon transfer sesuai total harga booking."
+      },
+      ovo: {
+        method: "OVO",
+        accountName: "PT FunVac Wisata",
+        accountNumber: "Nomor HP OVO: 08123456789",
+        instructions: "Transfer via aplikasi OVO."
+      },
+      gopay: {
+        method: "Gopay",
+        accountName: "PT FunVac Wisata",
+        accountNumber: "Nomor HP Gopay: 08987654321",
+        instructions: "Transfer via aplikasi Gopay."
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- Otomatis Isi Data User dari LocalStorage atau API ---
+      const token = localStorage.getItem('token');
+      const usernameFromLS = localStorage.getItem('username');
+
+      if (token && usernameFromLS) {
+        usernameInput.value = usernameFromLS;
+        fetch('/api/auth/me', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            if (!res.ok) {
+                // Tangani error seperti token invalid/kadaluarsa
+                console.error('Failed to fetch user data:', res.status, res.statusText);
+                return res.json().then(err => { throw new Error(err.message || 'Failed to fetch user data'); });
+            }
+            return res.json();
+        })
+        .then(userData => {
+            if (userData) {
+                userIdInput.value = userData.id || '';
+                fullNameInput.value = userData.fullName || '';
+                emailInput.value = userData.email || '';
+            }
+        })
+        .catch(error => {
+            console.error('Gagal mengambil data user dari API:', error);
+            userIdInput.value = '1';
+            fullNameInput.value = 'Pengguna Demo'; // Ganti dengan pesan yang sesuai
+            emailInput.value = 'demo@example.com';
+            // Opsional: Arahkan ke halaman login jika token invalid
+            // alert('Sesi Anda berakhir, silakan login kembali.');
+            // window.location.href = '/login.html';
+        });
+      } else {
+        console.warn('Tidak ada token atau username di localStorage. Menggunakan data user dummy.');
+        userIdInput.value = '1';
+        usernameInput.value = 'demouser';
+        fullNameInput.value = 'Nama Pengguna Demo';
+        emailInput.value = 'demo@example.com';
+      }
+      // --- Akhir Otomatis Isi Data User ---
+
+
+      if (!destinationId) {
+        loadingMessage.innerHTML = '<div class="alert alert-danger" role="alert">ID Destinasi tidak ditemukan!</div>';
+        return;
+      }
+
+      destinationIdInput.value = destinationId;
+
+      fetch(`/api/destinations/${destinationId}`)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Failed to fetch destination details');
+          }
+          return res.json();
+        })
+        .then(data => {
+          destinationNameSpan.textContent = data.name;
+          destinationPriceSpan.textContent = formatCurrency(data.basePrice, data.currency);
+          loadingMessage.style.display = 'none';
+          bookingForm.style.display = 'block';
+        })
+        .catch(error => {
+          console.error('Error fetching destination details:', error);
+          loadingMessage.innerHTML = `<div class="alert alert-danger" role="alert">Gagal memuat detail destinasi: ${error.message}</div>`;
+        });
+
+      paymentMethodSelect.addEventListener('change', (event) => {
+        const selectedMethod = event.target.value;
+        if (selectedMethod && dummyPaymentDetails[selectedMethod]) {
+          const details = dummyPaymentDetails[selectedMethod];
+          paymentAccountName.textContent = `Nama Penerima: ${details.accountName}`;
+          paymentAccountNumber.textContent = details.accountNumber;
+          paymentInstructions.textContent = `Instruksi: ${details.instructions}`;
+          paymentDetailsDisplay.style.display = 'block';
+        } else {
+          paymentDetailsDisplay.style.display = 'none';
+        }
+      });
+
+      bookingForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        // Menggunakan FormData untuk mengirim data teks dan file
+        const formData = new FormData();
+        formData.append('userId', userIdInput.value);
+        formData.append('destinationId', destinationIdInput.value);
+        formData.append('bookingDate', document.getElementById('bookingDate').value);
+        formData.append('paymentMethod', paymentMethodSelect.value);
+        formData.append('customerTransactionNumber', document.getElementById('customerTransactionNumber').value);
+        
+        const paymentProofFile = paymentProofInput.files[0];
+        if (paymentProofFile) {
+            formData.append('paymentProof', paymentProofFile); // Menambahkan file ke FormData
+        }
+
+        console.log('Sending Booking Form Data:', Object.fromEntries(formData.entries())); // Untuk debug FormData
+
+        try {
+            const response = await fetch('/api/bookings', {
+                method: 'POST',
+                // Hapus header 'Content-Type': 'application/json'. Browser akan mengaturnya secara otomatis
+                // sebagai 'multipart/form-data' saat Anda menggunakan FormData.
+                // headers: {
+                //     'Content-Type': 'application/json', // <--- HAPUS BARIS INI
+                //     'Authorization': `Bearer ${token}`
+                // },
+                headers: {
+                    'Authorization': `Bearer ${token}` // <--- Pertahankan hanya header otorisasi
+                },
+                body: formData // Langsung kirim objek FormData
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Gagal membuat booking.');
+            }
+
+            const data = await response.json();
+            console.log('Success:', data);
+            alert('Booking berhasil dikirim! Status: ' + data.booking.status);
+            window.location.href = `/profil.html`;
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat booking: ' + error.message);
+        }
+      });
+    });
+
+    function formatCurrency(amount, currency) {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: currency || 'IDR',
+        minimumFractionDigits: 0
+      }).format(amount);
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      const username = localStorage.getItem('username');
+      const loginNavItem = document.getElementById('loginNavItem');
+      const loggedInUserNavItem = document.getElementById('loggedInUserNavItem');
+      const usernameDisplay = document.getElementById('usernameDisplay');
+
+      if (token && username) {
+        loginNavItem.style.display = 'none';
+        usernameDisplay.textContent = username;
+        loggedInUserNavItem.style.display = 'block';
+      } else {
+        loginNavItem.style.display = 'block';
+        loggedInUserNavItem.style.display = 'none';
+      }});
+  </script>
+</body>
+</html>

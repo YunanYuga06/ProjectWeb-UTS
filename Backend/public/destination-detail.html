@@ -1,51 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FunVac - Detail Destination</title>
-  <link rel="icon" href="/assets/images/Title-logo.png" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/fontawesome.css">
-  <link rel="stylesheet" href="/assets/css/templatemo-574-mexant.css">
-  <link rel="stylesheet" href="/assets/css/owl.css">
-  <link rel="stylesheet" href="/assets/css/animate.css">
-  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <style>
-    .detail-image {
-      width: 100%;
-      border-radius: 12px;
-      object-fit: cover;
-      margin-bottom: 20px;
-    }
-    .testimonial {
-      background: #f9f9f9;
-      padding: 15px;
-      border-left: 4px solid #0071e3;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      font-style: italic;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunVac - Detail Destinasi</title>
+    <link rel="icon" href="/assets/images/Title-logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="/assets/css/templatemo-574-mexant.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .card-detail {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            color: #007bff;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .detail-info p {
+            margin-bottom: 10px;
+        }
+        .detail-info strong {
+            color: #555;
+        }
+        .loading-message, .error-message {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
         .back-button:hover {
-      background-color: #005bb5;
-    }
-  </style>
+            background-color: #5a6268;
+            color: white;
+        }
+        .back-button i {
+            margin-right: 8px;
+        }
+        .testimonial-item {
+            background-color: #e9f7ef; /* Light green background */
+            border: 1px solid #c3e6cb; /* Green border */
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        .testimonial-item p {
+            margin-bottom: 5px;
+        }
+        .testimonial-item .quote {
+            font-style: italic;
+            color: #495057;
+        }
+        .testimonial-item .author {
+            font-weight: 600;
+            text-align: right;
+            margin-top: 10px;
+            color: #28a745; /* Green color for author */
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container my-5">
-    <div id="destinationDetail"></div>
-    <h4 class="mt-5">Testimonials</h4>
-    <div id="testimonialList"></div>
+  <header class="header-area header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <a href="index.html" class="logo">FunVac</a>
+            <ul class="nav">
+              <li class="scroll-to-section"><a href="index.html">Home</a></li>
+              <li class="scroll-to-section"><a href="#About">About</a></li>
+              <li class="has-sub">
+                <a href="javascript:void(0)">Visit</a>
+                <ul class="sub-menu">
+                  <li><a href="our-services.html" class="active">Destination</a></li>
+                  <li><a href="galery.html">Gallery</a></li>
+                </ul>
+              </li>
+              <li class="scroll-to-section"><a href="about-us.html">About Us</a></li>
+              <li id="loginNavItem"><a href="login.html">Login</a></li>
+              <li id="loggedInUserNavItem" style="display: none;"><a href="profil.html">Hi, <span id="usernameDisplay"></span></a></li>
+            </ul>
+            <a class='menu-trigger'>
+              <span>Menu</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+      <div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="header-text">
+            <h2>Destination Details</h2>
+            <div class="div-dec"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script>
-    const queryParams = new URLSearchParams(window.location.search);
-    const destinationId = queryParams.get('id');
+        <div class="card-detail">
+            <h1 id="destinationName"></h1>
+            <div id="destinationDetails" class="detail-info">
+                <p><strong>Lokasi:</strong> <span id="destinationLocation"></span></p>
+                <p><strong>Harga Dasar:</strong> <span id="destinationBasePrice"></span></p>
+                <p><strong>Deskripsi:</strong> <span id="destinationDescription"></span></p>
+                <p><strong>Gambar:</strong> <br><img id="destinationImage" src="" alt="Gambar Destinasi" style="max-width: 100%; height: auto; border-radius: 8px; margin-top: 10px;"></p>
+            </div>
+            <a id="bookNowButton" href="#" class="btn btn-primary mt-4" style="display: block; width: fit-content; margin: 20px auto 0 auto;">Booking Sekarang</a>
+            <a href="our-services.html" class="back-button"><i class='bx bx-arrow-back'></i> Kembali</a>
+        </div>
 
-    document.addEventListener('DOMContentLoaded', () => {
+        <div class="card-detail mt-4">
+            <h2>Testimonial Pengunjung</h2>
+            <div id="testimonialsList">
+                <p class="loading-message">Memuat testimonial...</p>
+            </div>
+        </div>
+        </div>
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const destinationId = urlParams.get('id');
+
+            const token = localStorage.getItem('token');
+            const usernameFromLS = localStorage.getItem('username');
+            const userRoleFromLS = localStorage.getItem('userRole'); // Ambil role dari localStorage
+
+            // Elemen-elemen untuk header
+            const loginNavItem = document.getElementById('loginNavItem');
+            const loggedInUserNavItem = document.getElementById('loggedInUserNavItem');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const logoutButtonDropdown = document.getElementById('logoutButtonDropdown');
+            const adminDashboardLink = loggedInUserNavItem.querySelector('a[href="admin-dashboard.html"]');
+
+
+            // --- Logika Header Navbar (Diulang untuk setiap halaman) ---
+            if (token && usernameFromLS) {
+                loginNavItem.style.display = 'none';
+                usernameDisplay.textContent = usernameFromLS;
+                loggedInUserNavItem.style.display = 'list-item'; // Tampilkan item menu user
+                if (adminDashboardLink) {
+                    if (userRoleFromLS === 'admin' || userRoleFromLS === 'loket') {
+                        adminDashboardLink.style.display = 'block'; // Tampilkan link dashboard admin
+                    } else {
+                        adminDashboardLink.style.display = 'none'; // Sembunyikan jika bukan admin/loket
+                    }
+                }
+            } else {
+                loginNavItem.style.display = 'list-item';
+                loggedInUserNavItem.style.display = 'none'; // Sembunyikan item menu user
+            }
+
+            if (logoutButtonDropdown) {
+                logoutButtonDropdown.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.clear();
+                    window.location.href = '/login.html';
+                });
+            }
+            // --- Akhir Logika Header Navbar ---
+
+            if (!destinationId) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'ID Destinasi tidak ditemukan di URL.',
+                }).then(() => {
+                    window.location.href = '/index.html';
+                });
+                return;
+            }
+
+            // --- Ambil Detail Destinasi ---
+            try {
+                const response = await fetch(`/api/destinations/${destinationId}`);
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Gagal mengambil detail destinasi.');
+                }
+                const destination = await response.json();
+
+                document.getElementById('destinationName').textContent = destination.name;
+                document.getElementById('destinationLocation').textContent = destination.location;
+                document.getElementById('destinationBasePrice').textContent = formatCurrency(destination.basePrice, destination.currency);
+                document.getElementById('destinationDescription').textContent = destination.longDescription;
+                document.getElementById('destinationImage').src = destination.imageUrl || '/assets/images/default-destination.jpg';
+
+                // Set link booking
+                const bookNowButton = document.getElementById('bookNowButton');
+                bookNowButton.href = `booking.html?destinationId=${destination.id}&destinationName=${encodeURIComponent(destination.name)}&basePrice=${destination.basePrice}&currency=${destination.currency}`;
+
+            } catch (error) {
+                console.error('Error fetching destination details:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Gagal memuat detail destinasi: ' + error.message,
+                });
+            }
+
+            // --- Ambil dan Tampilkan Testimonial ---
+            const testimonialsList = document.getElementById('testimonialsList');
+            try {
+                const testimonialsResponse = await fetch(`/api/testimonials/destination/${destinationId}`);
+                if (!testimonialsResponse.ok) {
+                    const error = await testimonialsResponse.json();
+                    throw new Error(error.message || 'Gagal mengambil testimonial.');
+                }
+                const testimonials = await testimonialsResponse.json();
+
+                testimonialsList.innerHTML = ''; // Bersihkan pesan loading
+
+                if (testimonials.length === 0) {
+                    testimonialsList.innerHTML = '<p class="text-center text-muted">Belum ada testimonial untuk destinasi ini.</p>';
+                } else {
+                    testimonials.forEach(testimonial => {
+                        const testimonialItem = document.createElement('div');
+                        testimonialItem.classList.add('testimonial-item');
+                        testimonialItem.innerHTML = `
+                            <p class="quote">"${testimonial.quoteText}"</p>
+                            <p class="author">- ${testimonial.user.displayName}</p>
+                        `;
+                        testimonialsList.appendChild(testimonialItem);
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error fetching testimonials:', error);
+                testimonialsList.innerHTML = `<p class="error-message">Gagal memuat testimonial: ${error.message}</p>`;
+            }
+
+            function formatCurrency(amount, currency) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: currency || 'IDR',
+                    minimumFractionDigits: 0
+                }).format(amount);
+            }
+            document.addEventListener('DOMContentLoaded', function () {
       const token = localStorage.getItem('token');
       const username = localStorage.getItem('username');
       const loginNavItem = document.getElementById('loginNavItem');
@@ -56,47 +284,11 @@
         loginNavItem.style.display = 'none';
         usernameDisplay.textContent = username;
         loggedInUserNavItem.style.display = 'block';
-      }
-
-      fetch(`/api/destinations/${destinationId}`)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('destinationDetail').innerHTML = `
-            <img src="${data.imageUrl}" class="detail-image" alt="${data.name}">
-            <h2>${data.name}</h2>
-            <p><strong>📍 ${data.location}</strong></p>
-            <p>${data.longDescription}</p>
-            <p><strong>💰 ${formatCurrency(data.basePrice, data.currency)}</strong></p>
-          `;
+      } else {
+        loginNavItem.style.display = 'block';
+        loggedInUserNavItem.style.display = 'none';
+      }});
         });
-
-      fetch(`/api/testimonials?destinationId=${destinationId}`)
-        .then(res => res.json())
-        .then(data => {
-          const container = document.getElementById('testimonialList');
-          if (data.length === 0) {
-            container.innerHTML = '<p class="text-muted">Belum ada testimonial.</p>';
-            return;
-          }
-          data.forEach(t => {
-            const div = document.createElement('div');
-            div.className = 'testimonial';
-            div.innerHTML = `"${t.quoteText}"<br><strong>- ${t.user?.username || 'Anonim'}</strong>`;
-            container.appendChild(div);
-          });
-        });
-    });
-
-    function formatCurrency(amount, currency) {
-      return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: currency || 'IDR',
-        minimumFractionDigits: 0
-      }).format(amount);
-    }
-  </script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/jquery.min.js"></script>
-  <script src="/assets/js/custom.js"></script>
+    </script>
 </body>
 </html>

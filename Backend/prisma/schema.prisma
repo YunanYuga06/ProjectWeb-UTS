@@ -16,25 +16,34 @@ datasource db {
 }
 
 model User {
-  id                Int       @id @default(autoincrement())
-  username          String    @unique
+  id                Int           @id @default(autoincrement())
+  username          String        @unique
   hashedPassword    String
   salt              String?
   encryptedFullName String?
+  role              String        @default("user")
   encryptedEmail    String?
   bookings          Booking[]
   testimonials      Testimonial[]
 }
 
 model Booking {
-  id                    Int       @id @default(autoincrement())
-  userId                Int
-  user                  User      @relation(fields: [userId], references: [id])
-  tourName              String // Ini bisa diganti dengan relasi ke Service.id
-  bookingDate           String
-  encryptedPaymentDetails String?
-  serviceId             Int?      // Opsional: Foreign Key ke Service.id
-  service               Service?  @relation(fields: [serviceId], references: [id])
+  id                      Int      @id @default(autoincrement())
+  userId                  Int
+  user                    User     @relation(fields: [userId], references: [id]) // Relasi ke model User
+  destinationId           Int
+  destination             Destination @relation(fields: [destinationId], references: [id]) // Relasi baru ke model Destination
+  bookingDate             String   // Sesuai permintaan, tetap String (pertimbangkan DateTime untuk akurasi tanggal)
+  paymentMethod           String   // Contoh: "Bank Transfer", "OVO", "Gopay"
+  paymentProofUrl         String?
+  customerTransactionNumber String? // Perhatikan: saya jadikan optional `String?` jika ada skenario tidak diisi
+  status                  String   @default("pending")
+
+  // --- Tambahan untuk memperbaiki error relasi dengan Service ---
+  serviceId               Int?     // Foreign Key ke Service.id (opsional)
+  service                 Service? @relation(fields: [serviceId], references: [id]) // Relasi ke model Service
+  testimonial             Testimonial? 
+  // --- Akhir tambahan ---
 }
 
 // ProjectWeb-UTS-main/Backend/prisma/schema.prisma
@@ -43,56 +52,58 @@ model Destination {
   id                Int            @id @default(autoincrement())
   name              String         @unique
   shortDescription  String
-  longDescription   String
+  longDescription   String         @db.Text
   imageUrl          String
   cardImageUrl      String
-  location          String         // Contoh: "Karangsalam, Baturaden, Banyumas"
-  openingHours      String?        // Contoh: "Buka setiap hari 08.00-17.00"
-  contactPhone      String?        // Contoh: "0811-287-686"
-  contactEmail      String?        // Tambahan: Penting untuk sistem booking
-  mapEmbedUrl       String?        // URL untuk iframe peta, lebih spesifik dari detailsMapUrl sebelumnya
-  basePrice         Float?         // Harga dasar tiket/masuk, gunakan Float untuk koma
-  currency          String?        // Contoh: "IDR"
-  priceNotes        String?        // Catatan tambahan terkait harga (misal: "Tarif per orang: Rp 25.000–50.000")
+  location          String
+  openingHours      String?
+  contactPhone      String?
+  contactEmail      String?
+  mapEmbedUrl       String?
+  basePrice         Float?
+  currency          String?
+  priceNotes        String?
   temperatureRange  String?
   altitude          String?
-  categories        String         // Contoh: "Adventure", "Culinary", "Refreshing"
-  features          String?        // Fitur spesifik (misal: "Area Parkir Luas", "Akses Kursi Roda")
+  categories        String
+  features          String?
 
   galleryImages     GalleryImage[]
   services          Service[]
   testimonials      Testimonial[]
-
+  bookings          Booking[]
 }
 
 
 model Testimonial {
-  id            Int         @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   quoteText     String
   destinationId Int?
   destination   Destination? @relation(fields: [destinationId], references: [id])
   userId        Int
-  user          User        @relation(fields: [userId], references: [id])
+  user          User         @relation(fields: [userId], references: [id])
+  bookingId     Int?         @unique // <--- BARU: bookingId harus unik untuk 1-to-1
+  booking       Booking?     @relation(fields: [bookingId], references: [id]) // <--- BARU
 }
 
 
 model GalleryImage {
-  id              Int       @id @default(autoincrement())
-  imageUrl        String
-  caption         String?
-  description     String?
-  destinationId   Int?
-  destination     Destination? @relation(fields: [destinationId], references: [id])
+  id            Int          @id @default(autoincrement())
+  imageUrl      String
+  caption       String?
+  description   String?
+  destinationId Int?
+  destination   Destination? @relation(fields: [destinationId], references: [id])
 }
 
 model Service {
-  id              Int       @id @default(autoincrement())
-  name            String
-  description     String
-  price           Float
-  duration        String?
-  includes        String?
-  destinationId   Int
-  destination     Destination @relation(fields: [destinationId], references: [id])
-  bookings        Booking[]
+  id            Int          @id @default(autoincrement())
+  name          String
+  description   String
+  price         Float
+  duration      String?
+  includes      String?
+  destinationId Int
+  destination   Destination  @relation(fields: [destinationId], references: [id])
+  bookings      Booking[]    // Relasi ke Booking
 }

@@ -192,7 +192,7 @@
                     <span class="rating">⭐ 4.7 <small>• Istimewa</small></span>
                     <span class="price"><strong>${formatCurrency(dest.basePrice, dest.currency)}</strong></span>
                   </div>
-                  <button class="btn-book">Booking Now</button>
+                  <button class="btn-book" onclick="window.location.href='booking.html?destinationId=${dest.id}'">Booking Now</button>
                   <button class="btn-view" onclick="window.location.href='destination-detail.html?id=${dest.id}'">View More</button>
                 </div>
               </div>
@@ -209,9 +209,13 @@
       }
     });
   </script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/jquery.min.js"></script>
-  <script src="/assets/js/custom.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="/assets/js/isotope.min.js"></script>
+
+<script src="/assets/js/custom.js"></script>
 </body>
 
 </html>
