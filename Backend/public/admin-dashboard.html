@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunVac - Dashboard Admin</title>
+    <link rel="icon" href="/assets/images/Title-logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="/assets/css/templatemo-574-mexant.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px; /* Lebar lebih besar untuk dashboard */
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .card-dashboard {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            color: #007bff;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .profile-info p {
+            margin-bottom: 10px;
+        }
+        .profile-info strong {
+            color: #555;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+        .table thead th {
+            background-color: #e9ecef;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .table tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+        .btn-check-in, .btn-view-proof {
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+        }
+        .btn-check-in {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        .btn-check-in:hover {
+            background-color: #218838;
+        }
+        .btn-view-proof {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        .btn-view-proof:hover {
+            background-color: #0056b3;
+        }
+        .booking-status {
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            text-transform: capitalize;
+            font-size: 0.8rem;
+        }
+        .status-pending { background-color: #ffc107; color: #333; }
+        .status-confirmed { background-color: #17a2b8; } /* Changed to info color for confirmed */
+        .status-cancelled { background-color: #dc3545; }
+        .status-checked-in { background-color: #28a745; } /* Changed to success color for checked-in */
+        .loading-message, .error-message {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+        }
+        .logout-button {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            margin-top: 20px;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="index.html" class="logo">FunVac</a>
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="index.html">Home</a></li>
+                            <li class="scroll-to-section"><a href="our-services.html">Our Services</a></li>
+                            <li class="scroll-to-section"><a href="galery.html">Gallery</a></li>
+                            <li class="scroll-to-section"><a href="about-us.html">About Us</a></li>
+                            <li class="scroll-to-section" id="loginNavItem">
+                                <a href="login.html">Login</a>
+                            </li>
+                            <li class="has-sub" id="loggedInUserNavItem" style="display: none;">
+                                <a href="javascript:void(0)">Hi, <span id="usernameDisplay"></span></a>
+                                <ul class="sub-menu">
+                                    <li><a href="profile.html">Profile</a></li>
+                                    <li><a href="admin-dashboard.html">Dashboard Admin</a></li> <li><a href="#" id="logoutButtonDropdown">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+      <div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="header-text">
+            <h2>Daftar Booking</h2>
+            <div class="div-dec"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="container">
+        <div class="card-dashboard">
+            <div id="adminProfileInfo" class="profile-info text-center">
+                <p>Welcome, <strong><span id="adminUsername"></span></strong>!</p>
+                <p>Role: <span id="adminRole"></span></p>
+                <button id="logoutButton" class="btn btn-danger logout-button">Logout</button>
+            </div>
+        </div>
+
+        <div class="card-dashboard">
+            <h2>Daftar Booking</h2>
+            <div id="bookingsTableContainer" class="table-responsive">
+                <p class="loading-message">Memuat daftar booking...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('token');
+            const usernameFromLS = localStorage.getItem('username'); // Ambil username dari localStorage
+
+            // Elemen-elemen untuk header
+            const loginNavItem = document.getElementById('loginNavItem');
+            const loggedInUserNavItem = document.getElementById('loggedInUserNavItem');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const logoutButtonDropdown = document.getElementById('logoutButtonDropdown');
+
+            // Elemen-elemen untuk dashboard
+            const adminUsernameSpan = document.getElementById('adminUsername');
+            const adminRoleSpan = document.getElementById('adminRole');
+            const bookingsTableContainer = document.getElementById('bookingsTableContainer');
+            const logoutButtonMain = document.getElementById('logoutButton');
+
+            // --- Logika Header Navbar ---
+            if (token && usernameFromLS) {
+                loginNavItem.style.display = 'none';
+                usernameDisplay.textContent = usernameFromLS;
+                loggedInUserNavItem.classList.remove('d-none'); // Tampilkan dropdown
+            } else {
+                loginNavItem.style.display = 'list-item';
+                loggedInUserNavItem.classList.add('d-none');
+            }
+
+            if (logoutButtonDropdown) {
+                logoutButtonDropdown.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.clear();
+                    window.location.href = '/login.html';
+                });
+            }
+            // --- Akhir Logika Header Navbar ---
+
+            // --- Cek Otorisasi Admin di Frontend ---
+            let currentUserRole = null;
+            try {
+                const userResponse = await fetch('/api/auth/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!userResponse.ok) {
+                    throw new Error('Gagal mengambil data user untuk otorisasi.');
+                }
+                const userData = await userResponse.json();
+                currentUserRole = userData.role;
+
+                if (!token || (currentUserRole !== 'admin' && currentUserRole !== 'loket')) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Akses Ditolak',
+                        text: 'Anda tidak memiliki izin untuk mengakses halaman ini.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = '/index.html'; // Arahkan ke halaman utama
+                    });
+                    return; // Hentikan eksekusi script lebih lanjut
+                }
+
+                // Isi info profil admin
+                adminUsernameSpan.textContent = userData.username;
+                adminRoleSpan.textContent = userData.role;
+
+            } catch (error) {
+                console.error('Error otorisasi:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error Otentikasi',
+                    text: 'Silakan login sebagai admin/loket.',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    localStorage.clear();
+                    window.location.href = '/login.html';
+                });
+                return;
+            }
+            // --- Akhir Cek Otorisasi Admin ---
+
+
+            // --- Ambil dan Tampilkan Semua Data Booking ---
+            async function fetchAndDisplayBookings() {
+                try {
+                    const bookingsResponse = await fetch('/api/bookings', { // Mengambil semua booking
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+
+                    if (!bookingsResponse.ok) {
+                        const error = await bookingsResponse.json();
+                        throw new Error(error.message || 'Gagal mengambil daftar booking.');
+                    }
+
+                    const bookings = await bookingsResponse.json();
+                    bookingsTableContainer.innerHTML = ''; // Bersihkan pesan loading
+
+                    if (bookings.length === 0) {
+                        bookingsTableContainer.innerHTML = '<p class="text-center">Belum ada booking.</p>';
+                        return;
+                    }
+
+                    const table = document.createElement('table');
+                    table.classList.add('table', 'table-striped', 'table-hover');
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>ID Booking</th>
+                                <th>User</th>
+                                <th>Destinasi</th>
+                                <th>Tanggal</th>
+                                <th>Metode Bayar</th>
+                                <th>No. Transaksi</th>
+                                <th>Bukti Bayar</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody">
+                        </tbody>
+                    `;
+                    bookingsTableContainer.appendChild(table);
+
+                    const tbody = document.getElementById('bookingsTableBody');
+                    bookings.forEach(booking => {
+                        const row = tbody.insertRow();
+                        const bookingDate = new Date(booking.bookingDate).toLocaleDateString('id-ID', {
+                            year: 'numeric', month: 'long', day: 'numeric'
+                        });
+
+                        let statusClass = '';
+                        switch (booking.status) {
+                            case 'pending': statusClass = 'status-pending'; break;
+                            case 'confirmed': statusClass = 'status-confirmed'; break;
+                            case 'cancelled': statusClass = 'status-cancelled'; break;
+                            case 'checked-in': statusClass = 'status-checked-in'; break;
+                            default: statusClass = '';
+                        }
+
+                        row.innerHTML = `
+                            <td>${booking.id}</td>
+                            <td>${booking.user ? booking.user.username : 'N/A'}</td>
+                            <td>${booking.destination ? booking.destination.name : 'N/A'}</td>
+                            <td>${bookingDate}</td>
+                            <td>${booking.paymentMethod}</td>
+                            <td>${booking.customerTransactionNumber || 'N/A'}</td>
+                            <td>
+                                ${booking.paymentProofUrl ? `<a href="${booking.paymentProofUrl}" target="_blank" class="btn btn-sm btn-info btn-view-proof">Lihat Bukti</a>` : 'N/A'}
+                            </td>
+                            <td><span class="booking-status ${statusClass}">${booking.status}</span></td>
+                            <td>
+                                ${booking.status !== 'checked-in' ? `<button class="btn btn-sm btn-success btn-check-in" data-booking-id="${booking.id}">Check-in</button>` : ''}
+                            </td>
+                        `;
+                    });
+
+                    // Tambahkan event listener untuk tombol Check-in
+                    tbody.querySelectorAll('.btn-check-in').forEach(button => {
+                        button.addEventListener('click', async (event) => {
+                            const bookingId = event.target.dataset.bookingId;
+                            Swal.fire({
+                                title: 'Konfirmasi Check-in',
+                                text: `Apakah Anda yakin ingin melakukan check-in untuk Booking ID: ${bookingId}?`,
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#28a745',
+                                cancelButtonColor: '#6c757d',
+                                confirmButtonText: 'Ya, Check-in!'
+                            }).then(async (result) => {
+                                if (result.isConfirmed) {
+                                    try {
+                                        const updateResponse = await fetch(`/api/bookings/${bookingId}`, {
+                                            method: 'PUT',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': `Bearer ${token}`
+                                            },
+                                            body: JSON.stringify({ status: 'checked-in' })
+                                        });
+
+                                        if (!updateResponse.ok) {
+                                            const error = await updateResponse.json();
+                                            throw new Error(error.message || 'Gagal melakukan check-in.');
+                                        }
+
+                                        Swal.fire('Berhasil!', 'Booking telah di-check-in.', 'success');
+                                        fetchAndDisplayBookings(); // Muat ulang daftar booking
+                                    } catch (error) {
+                                        console.error('Error check-in:', error);
+                                        Swal.fire('Gagal!', 'Terjadi kesalahan saat check-in: ' + error.message, 'error');
+                                    }
+                                }
+                            });
+                        });
+                    });
+
+                } catch (error) {
+                    console.error('Error fetching all bookings:', error);
+                    bookingsTableContainer.innerHTML = `<p class="error-message">Gagal memuat daftar booking: ${error.message}</p>`;
+                }
+            }
+
+            // Panggil fungsi untuk memuat dan menampilkan booking saat halaman dimuat
+            if (currentUserRole === 'admin' || currentUserRole === 'loket') {
+                fetchAndDisplayBookings();
+            }
+
+            // --- Fungsi Logout (Tombol Utama di Dashboard) ---
+            logoutButtonMain.addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Konfirmasi Logout',
+                    text: 'Apakah Anda yakin ingin logout?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Logout!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.clear();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil Logout!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then(() => {
+                            window.location.href = '/login.html';
+                        });
+                    }
+                });
+            });
+
+            function formatCurrency(amount, currency) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: currency || 'IDR',
+                    minimumFractionDigits: 0
+                }).format(amount);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,129 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Pengguna</title>
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/templatemo-574-mexant.css">
+    <title>FunVac - Profil Pengguna</title>
+    <link rel="icon" href="/assets/images/Title-logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="/assets/css/templatemo-574-mexant.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .card-profile {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            color: #007bff;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .profile-info p {
+            margin-bottom: 10px;
+        }
+        .profile-info strong {
+            color: #555;
+        }
+        .booking-history-item {
+            background-color: #f0f8ff;
+            border: 1px solid #cce5ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .booking-details {
+            flex-grow: 1;
+        }
+        .booking-status {
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            text-transform: capitalize;
+        }
+        .status-pending { background-color: #ffc107; color: #333; }
+        .status-confirmed { background-color: #28a745; }
+        .status-cancelled { background-color: #dc3545; }
+        .status-checked-in { background-color: #007bff; }
+        .loading-message, .error-message {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+            color: white;
+        }
+        .back-button i {
+            margin-right: 8px;
+        }
+        .logout-button {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            margin-top: 20px;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+    </style>
 </head>
 <body>
-    <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <a href="index.html" class="logo">FunVac</a>
-                        <ul class="nav">
-                            <li><a href="index.html">Home</a></li>
-                            <li class="scroll-to-section"><a href="#profil">Profil Saya</a></li>
-                            <li><a href="#" id="logoutButtonProfilePage">Logout</a></li>
-                        </ul>
-                        <a class='menu-trigger'><span>Menu</span></a>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <div class="container mt-5 py-5">
-        <h1 class="mb-4">Profil Pengguna</h1>
-        <div class="card">
-            <div class="card-body">
+      <header class="header-area header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <a href="index.html" class="logo">FunVac</a>
+            <ul class="nav">
+              <li class="scroll-to-section"><a href="index.html">Home</a></li>
+              <li class="scroll-to-section"><a href="#About">About</a></li>
+              <li class="has-sub">
+                <a href="javascript:void(0)">Visit</a>
+                <ul class="sub-menu">
+                  <li><a href="our-services.html" class="active">Destination</a></li>
+                  <li><a href="galery.html">Gallery</a></li>
+                </ul>
+              </li>
+              <li class="scroll-to-section"><a href="about-us.html">About Us</a></li>
+              <li id="loginNavItem"><a href="login.html">Login</a></li>
+              <li id="loggedInUserNavItem" style="display: none;"><a href="profil.html">Hi, <span id="usernameDisplay"></span></a></li>
+            </ul>
+            <a class='menu-trigger'>
+              <span>Menu</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+      <div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="header-text">
+            <h2>Profil</h2>
+            <div class="div-dec"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="container">
+        <div class="card-profile">
+            <h1>Profil Pengguna</h1>
+            <div id="profileInfo" class="profile-info">
                 <p><strong>Username:</strong> <span id="profileUsername"></span></p>
                 <p><strong>Nama Lengkap:</strong> <span id="profileFullName"></span></p>
                 <p><strong>Email:</strong> <span id="profileEmail"></span></p>
-                <button class="btn btn-danger mt-3" id="logoutButtonProfilePageBottom">Logout</button>
+            </div>
+            <button id="logoutButton" class="btn btn-danger logout-button">Logout</button>
+        </div>
+
+        <div class="card-profile">
+            <h2>Riwayat Booking</h2>
+            <div id="bookingHistoryList">
+                <p class="loading-message">Memuat riwayat booking...</p>
             </div>
         </div>
     </div>
 
-    <footer class="footer mt-auto py-3 bg-light">
-        </footer>
+    <script src="/vendor/jquery/jquery.min.js"></script>
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/custom.js"></script> <script>
-        document.addEventListener('DOMContentLoaded', async function() {
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="/assets/js/isotope.min.js"></script>
+
+<script src="/assets/js/custom.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId');
-            const username = localStorage.getItem('username');
+            const usernameFromLS = localStorage.getItem('username');
 
-            if (!token || !userId || !username) {
-                // Redirect jika belum login
+            // Elemen-elemen untuk header
+            const loginNavItem = document.getElementById('loginNavItem');
+            const loggedInUserNavItem = document.getElementById('loggedInUserNavItem');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const logoutButtonDropdown = document.getElementById('logoutButtonDropdown');
+
+            // Elemen-elemen untuk profil
+            const profileUsername = document.getElementById('profileUsername');
+            const profileFullName = document.getElementById('profileFullName');
+            const profileEmail = document.getElementById('profileEmail');
+            const bookingHistoryList = document.getElementById('bookingHistoryList');
+            const logoutButtonMain = document.getElementById('logoutButton');
+
+            // --- Logika Header Navbar ---
+            if (token && usernameFromLS) {
+                loginNavItem.style.display = 'none';
+                usernameDisplay.textContent = usernameFromLS;
+                loggedInUserNavItem.classList.remove('d-none');
+            } else {
+                loginNavItem.style.display = 'list-item';
+                loggedInUserNavItem.classList.add('d-none');
+            }
+
+            if (logoutButtonDropdown) {
+                logoutButtonDropdown.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.clear();
+                    window.location.href = '/login.html';
+                });
+            }
+            // --- Akhir Logika Header Navbar ---
+
+            if (!token || !userId) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Akses Ditolak',
                     text: 'Anda harus login untuk melihat profil.',
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 2000
                 }).then(() => {
-                    window.location.href = 'login.html';
+                    window.location.href = '/login.html';
                 });
                 return;
             }
 
-            // Tampilkan username dari localStorage sementara
-            document.getElementById('profileUsername').textContent = username;
-
-            // --- Fungsi untuk Mengambil Data Profil dari Backend (Perlu API Endpoint) ---
-            async function fetchUserProfile() {
-                try {
-                    const response = await fetch(`http://localhost:3000/api/users/${userId}`, { // Contoh API endpoint
-                        method: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + token,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        document.getElementById('profileFullName').textContent = data.fullName || 'Tidak tersedia';
-                        document.getElementById('profileEmail').textContent = data.email || 'Tidak tersedia';
-                        // Update UI dengan data profil lainnya
-                    } else {
-                        Swal.fire('Error', data.message || 'Gagal mengambil data profil.', 'error');
-                        // Handle error (e.g., token invalid, redirect to login)
-                        if (response.status === 401) { // Unauthorized
-                            localStorage.clear();
-                            window.location.href = 'login.html';
-                        }
+            // --- Ambil Data Profil Pengguna ---
+            try {
+                const userResponse = await fetch('/api/auth/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
                     }
-                } catch (error) {
-                    console.error('Error fetching profile:', error);
-                    Swal.fire('Error', 'Gagal terhubung ke server untuk mengambil profil.', 'error');
+                });
+
+                if (!userResponse.ok) {
+                    const error = await userResponse.json();
+                    throw new Error(error.message || 'Gagal mengambil data profil.');
+                }
+
+                const userData = await userResponse.json();
+                profileUsername.textContent = userData.username;
+                profileFullName.textContent = userData.fullName;
+                profileEmail.textContent = userData.email;
+
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Gagal memuat data profil: ' + error.message,
+                });
+                if (error.message.includes('Token tidak valid') || error.message.includes('kadaluarsa')) {
+                    localStorage.clear();
+                    setTimeout(() => { window.location.href = '/login.html'; }, 1500);
                 }
             }
-            fetchUserProfile(); // Panggil fungsi untuk mengambil data profil
 
-            // --- Fungsi Logout di Halaman Profil ---
-            function performLogout() {
-                localStorage.removeItem('token');
-                localStorage.removeItem('userId');
-                localStorage.removeItem('username');
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Anda telah Logout',
-                    showConfirmButton: false,
-                    timer: 1000
-                }).then(() => {
-                    window.location.href = 'index.html'; // Redirect ke halaman utama
+            // --- Ambil Riwayat Booking Pengguna ---
+            try {
+                const bookingResponse = await fetch(`/api/bookings/user/${userId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
                 });
+
+                if (!bookingResponse.ok) {
+                    const error = await bookingResponse.json();
+                    throw new Error(error.message || 'Gagal mengambil riwayat booking.');
+                }
+
+                const bookings = await bookingResponse.json();
+                bookingHistoryList.innerHTML = '';
+
+                if (bookings.length === 0) {
+                    bookingHistoryList.innerHTML = '<p class="text-center">Anda belum memiliki riwayat booking.</p>';
+                } else {
+                    bookings.forEach(booking => {
+                        const bookingItem = document.createElement('div');
+                        bookingItem.classList.add('booking-history-item');
+                        
+                        const bookingDate = new Date(booking.bookingDate).toLocaleDateString('id-ID', {
+                            year: 'numeric', month: 'long', day: 'numeric'
+                        });
+
+                        let statusClass = '';
+                        switch (booking.status) {
+                            case 'pending': statusClass = 'status-pending'; break;
+                            case 'confirmed': statusClass = 'status-confirmed'; break;
+                            case 'cancelled': statusClass = 'status-cancelled'; break;
+                            case 'checked-in': statusClass = 'status-checked-in'; break;
+                            default: statusClass = '';
+                        }
+
+                        // --- LOGIKA REVIEW BARU ---
+                        let reviewButtonHtml = '';
+                        if (booking.status === 'checked-in') {
+                            if (booking.testimonial) { // Jika sudah ada testimonial
+                                reviewButtonHtml = `<button class="btn btn-info btn-sm view-review-btn" data-review-text="${booking.testimonial.quoteText}">Lihat Review</button>`;
+                            } else { // Jika belum ada testimonial
+                                reviewButtonHtml = `<button class="btn btn-primary btn-sm give-review-btn" data-booking-id="${booking.id}" data-destination-id="${booking.destinationId}" data-user-id="${booking.user.id}">Beri Review</button>`;
+                            }
+                        }
+                        // --- AKHIR LOGIKA REVIEW BARU ---
+
+                        bookingItem.innerHTML = `
+                            <div class="booking-details">
+                                <p><strong>Destinasi:</strong> ${booking.destination ? booking.destination.name : 'N/A'}</p>
+                                <p><strong>Tanggal Booking:</strong> ${bookingDate}</p>
+                                <p><strong>Metode Pembayaran:</strong> ${booking.paymentMethod}</p>
+                                ${booking.customerTransactionNumber ? `<p><strong>No. Transaksi:</strong> ${booking.customerTransactionNumber}</p>` : ''}
+                                ${booking.service ? `<p><strong>Service Tambahan:</strong> ${booking.service.name} (+${formatCurrency(booking.service.price, booking.destination ? booking.destination.currency : 'IDR')})</p>` : ''}
+                                ${booking.paymentProofUrl ? `<p><a href="${booking.paymentProofUrl}" target="_blank">Lihat Bukti Pembayaran</a></p>` : ''}
+                            </div>
+                            <div class="d-flex flex-column align-items-end">
+                                <span class="booking-status ${statusClass}">${booking.status}</span>
+                                ${reviewButtonHtml} </div>
+                        `;
+                        bookingHistoryList.appendChild(bookingItem);
+                    });
+
+                    // --- Event Listener untuk Tombol Review ---
+                    bookingHistoryList.querySelectorAll('.give-review-btn').forEach(button => {
+                        button.addEventListener('click', async (event) => {
+                            const bookingId = event.target.dataset.bookingId;
+                            const destinationId = event.target.dataset.destinationId;
+                            const userIdForReview = event.target.dataset.userId;
+
+                            const { value: reviewText } = await Swal.fire({
+                                title: 'Berikan Testimonial',
+                                input: 'textarea',
+                                inputLabel: 'Review Anda:',
+                                inputPlaceholder: 'Tuliskan pengalaman Anda...',
+                                inputAttributes: {
+                                    'aria-label': 'Tuliskan pengalaman Anda'
+                                },
+                                showCancelButton: true,
+                                confirmButtonText: 'Kirim Review',
+                                cancelButtonText: 'Batal',
+                            });
+
+                            if (reviewText) {
+                                try {
+                                    const reviewResponse = await fetch('/api/testimonials', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': `Bearer ${token}`
+                                        },
+                                        body: JSON.stringify({
+                                            quoteText: reviewText,
+                                            destinationId: destinationId,
+                                            userId: userIdForReview, // Pastikan ini adalah userId dari user yang login
+                                            bookingId: bookingId
+                                        })
+                                    });
+
+                                    if (!reviewResponse.ok) {
+                                        const errorData = await reviewResponse.json();
+                                        throw new Error(errorData.message || 'Gagal mengirim testimonial.');
+                                    }
+
+                                    Swal.fire('Berhasil!', 'Terima kasih atas testimonial Anda.', 'success');
+                                    // Muat ulang riwayat booking untuk update tombol
+                                    location.reload(); // Cara sederhana untuk refresh halaman
+                                } catch (error) {
+                                    console.error('Error mengirim testimonial:', error);
+                                    Swal.fire('Gagal!', 'Terjadi kesalahan saat mengirim testimonial: ' + error.message, 'error');
+                                }
+                            }
+                        });
+                    });
+
+                    bookingHistoryList.querySelectorAll('.view-review-btn').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const reviewText = event.target.dataset.reviewText;
+                            Swal.fire({
+                                title: 'Testimonial Anda:',
+                                text: reviewText,
+                                icon: 'info',
+                                confirmButtonText: 'Tutup'
+                            });
+                        });
+                    });
+
+                }
+
+            } catch (error) {
+                console.error('Error fetching booking history:', error);
+                bookingHistoryList.innerHTML = `<p class="error-message">Gagal memuat riwayat booking: ${error.message}</p>`;
             }
 
-            // Event listener untuk tombol logout di navigasi header (jika ada)
-            const logoutButtonHeader = document.getElementById('logoutButtonProfilePage');
-            if (logoutButtonHeader) {
-                logoutButtonHeader.addEventListener('click', performLogout);
-            }
+            // --- Fungsi Logout (Tombol Utama di Profil) ---
+            logoutButtonMain.addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Konfirmasi Logout',
+                    text: 'Apakah Anda yakin ingin logout?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Logout!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.clear();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil Logout!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then(() => {
+                            window.location.href = '/login.html';
+                        });
+                    }
+                });
+            });
 
-            // Event listener untuk tombol logout di bagian bawah profil
-            const logoutButtonProfilePageBottom = document.getElementById('logoutButtonProfilePageBottom');
-            if (logoutButtonProfilePageBottom) {
-                logoutButtonProfilePageBottom.addEventListener('click', performLogout);
+            function formatCurrency(amount, currency) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: currency || 'IDR',
+                    minimumFractionDigits: 0
+                }).format(amount);
             }
         });
+        document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      const username = localStorage.getItem('username');
+      const loginNavItem = document.getElementById('loginNavItem');
+      const loggedInUserNavItem = document.getElementById('loggedInUserNavItem');
+      const usernameDisplay = document.getElementById('usernameDisplay');
+
+      if (token && username) {
+        loginNavItem.style.display = 'none';
+        usernameDisplay.textContent = username;
+        loggedInUserNavItem.style.display = 'block';
+      } else {
+        loginNavItem.style.display = 'block';
+        loggedInUserNavItem.style.display = 'none';
+      }});
     </script>
 </body>
 </html>

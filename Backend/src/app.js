@@ -1,6 +1,7 @@
 // ProjectWeb-UTS-main/Backend/src/app.js
 
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const app = express();
 
@@ -11,14 +12,20 @@ app.use(express.urlencoded({ extended: true })); // Untuk parsing URL-encoded bo
 // Serve static files from the 'public' directory
 // Penting agar file HTML, CSS, JS, dan gambar di folder public bisa diakses oleh browser
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
-const destinationRoutes = require('./routes/destinationRoutes'); // Impor routes destinasi
+const destinationRoutes = require('./routes/destinationRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const testimonialRoutes = require('./routes/testimonialRoutes');  
+ // Impor routes destinasi
 
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/destinations', destinationRoutes); // Gunakan routes destinasi
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/testimonials', testimonialRoutes)
 
 // Catch-all routes to serve HTML files directly from public directory
 // Ini memastikan halaman HTML Anda dapat diakses langsung melalui URL

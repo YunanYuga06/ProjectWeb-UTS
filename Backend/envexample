@@ -1,0 +1,4 @@
+DATABASE_URL="mysql://root:@localhost:3306/booking_vacation"
+JWT_SECRET=your_super_secret_jwt_key_here
+AES_SECRET_KEY=19175d5bf9b8f29c13e6312603a9d1ca61bb5daf3fa12801f6fc3c008bdf3a09
+ENCRYPTION_KEY=f141507f3db8a887535ac7d622b11bf5025686457c05e6939679195674ae25bd
